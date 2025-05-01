@@ -1,1 +1,1 @@
-# SRWE Module 11: [NAME]
+# SRWE Module 11: Switch Security Configuration

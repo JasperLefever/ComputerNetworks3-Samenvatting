@@ -1,1 +1,1 @@
-# SRWE Module 13: [NAME]
+# SRWE Module 13: WLAN Configuration

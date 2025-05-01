@@ -1,1 +1,1 @@
-# SRWE Module 12: [NAME]
+# SRWE Module 12: WLAN Concepts
