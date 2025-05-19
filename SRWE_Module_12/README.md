@@ -1,216 +1,281 @@
 # SRWE Module 12: WLAN Concepts
 
-### **12.1. WLAN Concepts and Operation**
+## 12.1. **Introduction to WLANs**
 
-#### Definition and Role
+- WLANs extend Layer 2 access to users via **radio frequency (RF)** instead of copper or fiber cabling.
+- Provide **mobility**, **flexibility**, and **cost-effective deployment**, particularly in dynamic or mobile environments.
+- Operate over the **OSI Layer 1 (Physical)** and **Layer 2 (Data Link)** layers with adaptations for wireless media.
 
-- **Wireless LAN (WLAN)**: A LAN that uses **radio waves** instead of cables for connectivity.
-- Extends wired networks to wireless clients through **Access Points (APs)**.
-- Common in enterprise, public, and home networks for mobility and flexibility.
+### Types of WLANs:
 
-#### WLAN Architecture
+- WPAN (Wireless Personal Area Network): Short-range, low-power (e.g., Bluetooth). 802.15
+- WLAN (Wireless Local Area Network): Medium-range, higher bandwidth (e.g., Wi-Fi). 802.11
+- WMAN (Wireless Metropolitan Area Network): Covers larger areas (e.g., WiMAX (Worldwide Interoperability for Microwave Access)).
+- WWAN (Wireless Wide Area Network): Extensive geographic coverage (e.g., cellular networks, satellite).
 
-- **Ad Hoc Mode**:
+### Wireless Technologies:
 
-  - Peer-to-peer connection without centralized infrastructure.
-  - Rarely used in modern deployments due to lack of scalability/security.
+- Bluetooth: Short-range, low-power, peer-to-peer connections.
+- WiMAX: Long-range, high-speed broadband access. Worldwide Interoperability for Microwave Access. 802.16 50KM
+- Cellular: Wide area coverage using base stations; includes 3G, 4G, and 5G technologies. Caries both voice and data.
+  - GSM (Global System for Mobile Communications): 2G technology for voice and SMS.
+  - CDMA (Code Division Multiple Access): US
+- Satellite: Global coverage, used for remote areas and maritime applications.
 
-- **Infrastructure Mode**:
+### Major IEEE Standards:
 
-  - Devices connect through a central AP.
-  - AP connects to distribution system (DS), typically via Ethernet, to bridge wireless and wired segments.
-  - Most common WLAN deployment.
-
-#### Key Terms
-
-- **SSID (Service Set Identifier)**: Logical name of a WLAN; can be broadcast or hidden.
-- **BSSID (Basic Service Set Identifier)**: MAC address of the AP’s radio interface.
-- **ESSID**: When multiple APs share the same SSID to provide extended coverage.
-- **Client**: Any wireless-capable device (e.g., phones, laptops, IoT).
-
----
-
-### **12.2. IEEE 802.11 Standards and Wireless Fundamentals**
-
-#### Standards Overview
-
-| Standard           | Frequency | Max Speed | Channel Width | Key Features                      |
-| ------------------ | --------- | --------- | ------------- | --------------------------------- |
-| 802.11a            | 5 GHz     | 54 Mbps   | 20 MHz        | Less interference                 |
-| 802.11b            | 2.4 GHz   | 11 Mbps   | 22 MHz        | High range, interference-prone    |
-| 802.11g            | 2.4 GHz   | 54 Mbps   | 20 MHz        | Backward-compatible with b        |
-| 802.11n            | 2.4/5 GHz | 600 Mbps  | 20/40 MHz     | MIMO support, improved throughput |
-| 802.11ac           | 5 GHz     | 1.3+ Gbps | up to 160 MHz | MU-MIMO, beamforming              |
-| 802.11ax (Wi-Fi 6) | 2.4/5 GHz | >9.6 Gbps | OFDMA support | Improved efficiency & performance |
-
-#### Frequency Bands
-
-- **2.4 GHz**:
-
-  - Longer range but prone to interference (microwaves, Bluetooth).
-  - Only **3 non-overlapping channels** (1, 6, 11) in North America.
-
-- **5 GHz**:
-
-  - More available channels (up to 23 non-overlapping).
-  - Shorter range, less wall penetration, lower interference.
-  - DFS (Dynamic Frequency Selection) required for radar channel detection.
-
-#### Channel Width
-
-- Wider channels (e.g., 40 MHz, 80 MHz, 160 MHz) increase speed but reduce available non-overlapping channels.
+| Standard           | Band      | Modulation      | Max Data Rate | Key Features                                |
+| ------------------ | --------- | --------------- | ------------- | ------------------------------------------- |
+| 802.11a            | 5 GHz     | OFDM            | 54 Mbps       | Shorter range, less interference            |
+| 802.11b            | 2.4 GHz   | DSSS            | 11 Mbps       | Legacy; highly prone to interference        |
+| 802.11g            | 2.4 GHz   | OFDM            | 54 Mbps       | Backward compatible with 802.11b            |
+| 802.11n            | 2.4/5 GHz | OFDM + MIMO     | 600 Mbps      | Channel bonding (20/40 MHz), MIMO           |
+| 802.11ac           | 5 GHz     | OFDM + MU-MIMO  | \~6.9 Gbps    | Wider channels (up to 160 MHz), beamforming |
+| 802.11ax (Wi-Fi 6) | 2.4/5 GHz | OFDMA + MU-MIMO | 9.6 Gbps      | Improved efficiency, latency, capacity      |
 
 ---
 
-### **12.3. Wireless Security**
+## 12.2 **WLAN Components**
 
-#### Encryption and Authentication
+- Wireless NIC (Network Interface Card): Hardware that enables devices to connect to WLANs. Integrated radio transceiver.
+- Wireless Access Point (AP): Connects wireless clients to the wired network. Acts as a bridge between wired and wireless networks.
+  - Advertises SSID (Service Set Identifier) for client discovery.
+  - CLients associate and authenticate with the AP.
 
-| Security Mode | Encryption | Auth Method | Notes                                |
-| ------------- | ---------- | ----------- | ------------------------------------ |
-| Open          | None       | None        | Public networks, no confidentiality  |
-| WEP           | RC4 (weak) | Shared key  | Deprecated, easily cracked           |
-| WPA           | TKIP       | PSK/802.1X  | Legacy, transitional                 |
-| WPA2          | AES (CCMP) | PSK/802.1X  | Industry standard                    |
-| WPA3          | AES-GCMP   | SAE/802.1X  | Stronger encryption, forward secrecy |
+### AP Modes:
 
-#### Authentication Options
+- Autonomous: Standalone APs with self-management.
+  - Operate independently, no controller required.
+  - Configured via web interface or CLI.
+- Controller-based:
+  - APs managed by a Wireless LAN Controller (WLC) for centralized control and configuration.
+  - LAP's (Lightweight Access Points) rely on WLC for management.
+  - LWAPP (Lightweight Access Point Protocol) used for communication between APs and WLC.
+  - WLC uses LAG (Link Aggregation Group) for redundancy and load balancing.
 
-- **PSK (Pre-Shared Key)**: Common for small networks; all users share same key.
-- **802.1X / RADIUS** (Enterprise):
+### Antenna Types:
 
-  - Client credentials are authenticated by a RADIUS server.
-  - More secure, enables per-user access control and logging.
+- **Omnidirectional**: Radiates signal equally in all directions; ideal for general coverage.
+- **Directional**: Focuses signal in a specific direction; used for point-to-point links or long-range connections.
+- **MIMO (Multiple Input Multiple Output)**: Uses multiple antennas to improve signal quality and data rates; common in modern WLANs.
 
-#### Other Security Features
+## 12.3. **WLAN Operation**
 
-- **MAC Filtering**: Only allows whitelisted MACs; can be spoofed.
-- **Hidden SSID**: Prevents SSID from being broadcast, minor security by obscurity.
-- **Client Isolation**: Prevents wireless clients from communicating directly.
+### Wireless Topology Modes:
 
----
+- Ad-hoc (IBSS): Peer-to-peer connections without APs. (Independent Basic Service Set)
+- Infrastructure: Clients connect to an AP, which connects to the wired network. (Basic Service Set)
+- Thethering: Connects a device to a network via another device (e.g., smartphone hotspot).
 
-### **12.4. Wireless Router Configuration (Home/Small Office)**
+### BSS (Basic Service Set):
 
-#### Interface Setup
+- Basic unit of a WLAN; consists of an AP and associated clients.
+- Each BSS has a unique **BSSID** (Basic Service Set Identifier), typically the MAC address of the AP.
+- **BSA** (Basic Service Area): Physical area covered by a BSS.
+- Without intermediate system different BSSs can not communicate with each other.
 
-- Access router via web GUI (e.g., 192.168.0.1).
-- Set **SSID**, **wireless mode** (e.g., b/g/n/ac), **channel**, and **security settings**.
+### ESS (Extended Service Set):
 
-#### Channel Selection
+- Multiple BSSs interconnected via a distribution system (DS).
+- Allows seamless roaming between APs within the same ESS.
+- Each ESS has a unique **SSID** (Service Set Identifier), which is the network name broadcasted by APs.µ
+- **ESA** (Extended Service Area): Physical area covered by an ESS.
 
-- Auto vs Manual: Manual allows tuning based on site survey.
-- Use channels 1, 6, 11 for 2.4 GHz to avoid overlap.
+![alt text](image.png)
 
-#### Network Mode
+### CSMA/CA (Carrier Sense Multiple Access with Collision Avoidance):
 
-- Mixed mode supports older clients but can slow network.
-- Prefer “n only” or “ac only” if all clients support it.
+- Wireless networks are half-duplex; only one device can transmit at a time.
+- CSMA/CA uses a **contention-based** approach to avoid collisions.
 
----
+1. **Listen**: Device listens for a clear channel before transmitting.
+2. Sends a **Request to Send (RTS)** frame to the AP.
+3. AP responds with a **Clear to Send (CTS)** frame.
+4. If no CTS is received, the device waits a random backoff time before retrying.
+5. Transmits data
+6. Receives an **ACK** (Acknowledgment) frame from the AP to confirm successful transmission.
+7. If no ACK is received, the device assumes a collision occurred and retries.
 
-### **12.5. Wireless LAN Controller (WLC) and Lightweight APs**
+### Wireless client and AP association:
 
-#### WLC Role
+- Clients must associate with an AP to communicate.
 
-- Centralized management of multiple APs.
-- Enables unified policies, configuration, firmware updates.
+3 Steps:
 
-#### Lightweight AP vs Autonomous AP
+- Discover AP
+- Autheneticate with AP
+- Associate with AP
 
-- **Lightweight AP**: Relies on WLC for control plane; CAPWAP tunnel established.
-- **Autonomous AP**: Standalone, configured individually.
+To Achieve association, clients must:
 
-#### CAPWAP Protocol
+- Match the AP's SSID and security settings.
+- Support the same frequency band (2.4 GHz or 5 GHz).
+- have the same channel settings
+- Have the same network mode
+- Have the correct password
 
-- **Control And Provisioning of Wireless Access Points**
-- Encapsulates data/control traffic between WLC and AP.
-- UDP ports 5246 (control) and 5247 (data).
+### AP Discovery:
 
-#### AP Registration Process
+CLients can connect to an AP using passive or active scanning / probing.
 
-1. AP powers on and gets IP via DHCP.
-2. AP discovers WLC (via DHCP Option 43, DNS, broadcast).
-3. AP joins WLC via CAPWAP.
-4. Firmware check/update occurs.
-5. Configuration is downloaded from WLC.
-
----
-
-### **12.6. WLAN Configuration on WLC (GUI)**
-
-#### WLAN Creation
-
-- Create a **WLAN profile** (Name, SSID, ID).
-- Configure **VLAN ID** to bind WLAN to a specific network segment.
-- Set **security policies** (e.g., WPA2-PSK, WPA2-Enterprise).
-- Apply **QoS, bandwidth limits, client policies** if needed.
-
-#### Interface Mapping
-
-- Management Interface: For WLC administration and AP discovery.
-- Dynamic Interface: Used by WLANs for client data traffic.
-
-#### Advanced Features
-
-- **Band Select**: Encourages clients to use 5 GHz.
-- **Load Balancing**: Distributes clients evenly across APs.
-- **Client Exclusion**: Blocks misbehaving clients temporarily.
-- **Coverage Hole Detection**: WLC detects areas with poor signal.
+- **Passive Scanning**: Clients listen for beacon frames broadcasted by APs. Beacon frames contain information about the AP, including SSID, supported data rates, and security settings.
+  ![alt text](image-1.png)
+- **Active Scanning**: Clients must know the SSID of the AP they want to connect to. They send a probe request frame to the AP, which responds with a probe response frame containing information about the AP.
+  ![alt text](image-2.png)
 
 ---
 
-### **12.7. WLAN Troubleshooting**
+## 12.4. **CAPWAP Operation**
 
-#### Common Wireless Problems
+- **Control and Provisioning of Wireless Access Points (CAPWAP)**: Protocol for communication between lightweight APs and WLC.
+- IEEE Standard
 
-- Low signal strength: Far from AP, obstructions.
-- Interference: From other wireless devices or overlapping channels.
-- Authentication failures: Incorrect PSK or RADIUS issues.
-- DHCP issues: Client not getting IP.
-- Excessive retries/packet loss: Signal quality, congestion.
+- Based on **LWAPP** (Lightweight Access Point Protocol) but with added security => DTLS (Datagram Transport Layer Security) for encryption.
+- CAPWAP encapsulates data frames in a tunnel between the AP and WLC, UDP port 5246 and 5247.
 
-#### Tools and Techniques
+### Split MAC Architecture:
 
-- **Wireless Survey Tools**: Analyze signal strength, interference (e.g., Ekahau, NetSpot).
-- **WLC Monitoring**: View client association, signal, logs.
-- **Ping/Traceroute**: Test connectivity to gateway or external sites.
-- **Wireshark**: Packet analysis for deep inspection.
+- CAPWAP seperates the functions of the WLC AND AP and sends them to the correct respective device.:
+  ![alt text](image-3.png)
 
-#### Client Troubleshooting
+### DTLS (Datagram Transport Layer Security):
 
-- Check SSID, security type, and password.
-- Ensure correct IP/DNS configuration.
-- Observe signal strength and speed.
-- Use **ipconfig/ifconfig**, **netsh wlan show interfaces** (Windows) for diagnostics.
+- Provides encryption and integrity for CAPWAP control messages.
+- DATA frames are not encrypted by default, but can be if configured. => License required.
+- CONTROL messages are encrypted to protect sensitive information (e.g., authentication credentials).
+
+![alt text](image-4.png)
+
+### Flex Connect APs:
+
+- Operate in both local and remote modes when CAPWAP is used.
+- This enables APs to function independently when the WLC is unreachable.
+
+- **Local Mode**: APs connect to WLC for configuration and control.
+- **Remote Mode**: APs operate independently, allowing local clients to connect even if the WLC is unreachable. (Switching and client authentication are done locally)
+  ![alt text](image-5.png)
 
 ---
 
-### **12.8. Deployment & Design Best Practices**
+## 12.5. **Channel Mangement**
 
-#### Site Survey
+- If demand for a specific channel is high, the channel may become saturated, leading to performance degradation.
 
-- Perform **pre-deployment survey** to measure RF environment.
-- Identify:
+### Channel saturation can be mitigated by:
 
-  - Interference sources
-  - Dead zones
-  - Optimal AP placement
+- **Direct-Sequence Spread Spectrum (DSSS)**: Spreads the signal over a wider frequency range, reducing interference.
 
-#### AP Placement Guidelines
+![image-6](image-6.png)
 
-- Mount high and central in coverage area.
-- Avoid metal objects, thick walls.
-- Overlap coverage between APs \~15–20% for roaming.
-- Consider directional antennas for specific areas (e.g., corridors).
+- **Orthogonal Frequency Division Multiplexing (OFDM)**: Divides the signal into multiple subcarriers, each of these subcarriers is modulated with a low data rate signal. This allows for higher data rates and better resistance to interference. The subcarriers are orthogonal to each other, meaning they do not interfere with each other.
 
-#### Segmentation
+![alt text](image-9.png)
 
-- Use **VLANs** to isolate guest, internal, and management traffic.
-- Apply **ACLs** for access control between segments.
-- Use **802.1Q trunking** for multiple SSIDs per AP via different VLANs.
+- **Frequency Hopping Spread Spectrum (FHSS)**: Rapidly changes frequencies to avoid interference. Sender and receiver must be synchronized to the same hopping pattern.
 
-#### Capacity Planning
+![alt text](image-7.png)
 
-- Estimate users per AP (ideally <25 per AP).
-- Ensure adequate bandwidth per user based on use case (e.g., voice/video).
+### 2.4 GHz Considerations:
+
+- Channels overlap significantly; use only 1, 6, 11 in most countries.
+- Affected by **microwaves**, **Bluetooth**, **cordless phones**.
+- For neigboring APs, use **non-overlapping channels** to minimize interference. Meaning each AP should use a different channel than the others. For example, if AP1 is on channel 1, AP2 should be on channel 6 or 11.
+- A channel width of 22 MHz and are seprated by 5 MHz.
+
+![alt text](image-8.png)
+
+### 5 GHz Considerations:
+
+- Offers 24 non-overlapping channels.
+- The tails of the channels overlap, but the center frequencies do not.
+- Channels are 20 MHz wide and separated by 20 MHz.
+
+![alt text](image-10.png)
+
+### Best Practices:
+
+- **Minimize co-channel interference** by using non-overlapping channels.
+- Use **site survey tools** to visualize and select optimal channels.
+  need for non-overlapping chanels made visible by the picture
+
+![alt text](image-11.png)
+
+---
+
+## 12.6. **WLAN Threats**
+
+WLAN is open to anyone within range of an AP and is vulnerable to various attacks.
+
+### DOS (Denial of Service):
+
+- Attackers flood the network with traffic, overwhelming APs and causing service disruption.
+- Can be mitigated by implementing **rate limiting** and **traffic shaping** on APs.
+
+### Rogue APs:
+
+- Unauthorized APs connected to the network, potentially compromising security.
+- Can be set up by employees or attackers to bypass security controls.
+- Can be used for a Man-in-the-Middle (MitM) attack.
+- Configure WLC to detect rogue APs and alert administrators.
+
+![alt text](image-12.png)
+
+### Interception of data:
+
+- All traffic is sent in the clear, making it vulnerable to eavesdropping. It should be encrypted.
+
+---
+
+## 12.7. **Secure WLAN's**
+
+In the early days SSID cloaking and MAC address filtering were used to secure WLANs, but these methods are no longer considered effective enough.
+
+### SSID Cloaking:
+
+- Hides the SSID from casual users. (passive mode)
+
+### MAC Address Filtering:
+
+- Allows only specific MAC addresses to connect to the AP.
+
+Best way to secure a wireless network is to use encryption and authentication protocols.
+2 Types:
+
+- Open system authentication: No encryption, no authentication. => requires other security measures.
+- Shared key authentication: Uses a shared key for authentication and encryption.
+  - WPA, WPA2, and WPA3 are the most common encryption protocols used in WLANs.
+
+![alt text](image-13.png)
+
+![alt text](image-14.png)
+
+### Authenticating a home user:
+
+- WPA2-Personal: Uses a pre-shared key (PSK) for authentication. => The password
+- WPA32 Enterprise: Uses 802.1X authentication with a RADIUS server for enterprise environments. (Remote authentication dial-in user service)
+  - Uses the EAP (Extensible Authentication Protocol) for authentication.
+
+### Encryption methods:
+
+- TKIP (Temporal Key Integrity Protocol): Used in WPA, provides per-packet keying and message integrity.
+- AES (Advanced Encryption Standard): Used in WPA2 and WPA3, provides stronger encryption and is the industry standard.
+  - AES-CCMP (Counter Mode with Cipher Block Chaining Message Authentication Code Protocol): Used in WPA2, provides confidentiality and integrity. Can sense when the data is being tampered with.
+
+### Authenticating an entherprise user
+
+Enterprise security mode choice requires an **Authentication, Authorization, and Accounting (AAA) RADIUS server.**
+
+- **Authentication**: Verifies user credentials (username/password).
+- **Authorization**: Determines user access rights and permissions.
+- **Accounting**: Tracks user activity and resource usage.
+
+Radius uses a shared key to authenticate the AP with the RADIUS server.
+
+### WPA3
+
+Because WPA2 is no longer considered secure, WPA3 is recommended when available. WPA3 Includes four features:
+
+- WPA3 – Personal : Thwarts brute force attacks by using Simultaneous Authentication of Equals (SAE).
+- WPA3 – Enterprise : Uses 802.1X/EAP authentication. However, it requires the use of a 192-bit cryptographic suite and eliminates the mixing of security protocols for previous 802.11 standards.
+- Open Networks : Does not use any authentication. However, uses Opportunistic Wireless Encryption (OWE) to encrypt all wireless traffic.
+- IoT Onboarding : Uses Device Provisioning Protocol (DPP) to quickly onboard IoT devices.
